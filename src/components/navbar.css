@@ -1,0 +1,12 @@
+.img{
+    mix-blend-mode:color-burn;
+    height: 30%;
+
+}
+
+.container{
+    height: 9vh;
+    
+    width: 100% !important;
+
+}

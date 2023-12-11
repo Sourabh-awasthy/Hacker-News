@@ -1,25 +1,51 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useState ,useEffect } from 'react';
+import Navbar from './components/Navbar'; 
+import Item from './components/Item';
+import Inside from "./components/Inside"
+import { BrowserRouter, Routes, Route } from 'react-router-dom'; //using browser roter for navigation
 
-function App() {
+const App = () => {
+  const [data, setData] = useState(null);
+//fn to fetch data from the given api in doc
+  const fetchData = async (searchTerm) => {
+    const query = searchTerm.trim() ? `query=${encodeURIComponent(searchTerm)}` : '';
+    try {
+      const response = await fetch(`https://hn.algolia.com/api/v1/search?${query}`);
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      const json = await response.json();
+      setData(json);
+    } catch (error) {
+      console.error("Could not fetch data:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData(''); 
+  }, []);
+
+  
+  const handleSearchSubmit = (searchTerm) => {
+    fetchData(searchTerm);
+  };
+
+
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Navbar onSearchSubmit={handleSearchSubmit} />
+      <Routes>
+        <Route path="/" element={<>
+        <h1 className="text-center underline font-bold text-3xl ">Top News</h1>
+        <Item data={data} /> 
+        </>} 
+        />
+        <Route path="/inside/:objectID" element={<Inside />} />
+      
+    
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
