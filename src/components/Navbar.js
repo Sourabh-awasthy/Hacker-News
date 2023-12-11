@@ -10,7 +10,7 @@ const Navbar = ({ onSearchSubmit }) => {
   };
 
   return (
-    <nav className="bg-gray-900 p-3 flex justify-between items-center">
+    <nav className="bg-gray-800 p-3 flex justify-between items-center">
       <Link to="/" className="text-white font-bold">
         Hacker NEWS
       </Link>
@@ -19,7 +19,7 @@ const Navbar = ({ onSearchSubmit }) => {
           name='search'
           value={search}
           onChange={(e) => setSearch(e.target.value)}
-          className="p-2 rounded w-full"
+          className="p-2 rounded w-full text-black font-bold"
           type="text"
           placeholder="Search Hacker news"
         />
